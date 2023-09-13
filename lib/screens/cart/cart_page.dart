@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -9,8 +10,11 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   int counter = 1;
+  int price = 500000;
+
   @override
   Widget build(BuildContext context) {
+    int totals = counter * price;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -57,10 +61,10 @@ class _CartScreenState extends State<CartScreen> {
                         height: 80.0,
                         width: 80.0,
                       ),
-                      const Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "Sandal",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
@@ -70,8 +74,12 @@ class _CartScreenState extends State<CartScreen> {
                             ),
                           ),
                           Text(
-                            "Rp. 500.000",
-                            style: TextStyle(
+                            NumberFormat.currency(
+                                    decimalDigits: 0,
+                                    locale: 'id',
+                                    name: "Rp. ")
+                                .format(price),
+                            style: const TextStyle(
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,
                             ),
@@ -96,7 +104,7 @@ class _CartScreenState extends State<CartScreen> {
                             InkWell(
                               onTap: () {
                                 setState(() {
-                                  if (counter > 0) {
+                                  if (counter >= 1) {
                                     counter--;
                                   }
                                 });
@@ -178,7 +186,13 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                 ),
                 Text(
-                  counter.toString(),
+                  NumberFormat.currency(
+                          decimalDigits: 0, locale: 'id', name: 'Rp.')
+                      .format(
+                    int.tryParse(
+                      totals.toString(),
+                    ),
+                  ),
                   style: TextStyle(
                       fontSize: 25.0,
                       fontWeight: FontWeight.bold,
